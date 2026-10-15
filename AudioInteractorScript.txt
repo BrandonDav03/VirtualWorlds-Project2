@@ -1,0 +1,591 @@
+#pragma import (ray, input)
+#pragma lifecycle(startup, update, dispose)
+
+// ─── Scene objects ────────────────────────────────────────────────────────────
+
+
+const practiceMaj     = cast(scene.getObjectByName("Practice_Maj_Button"), THREE.Object3D);
+const practiceDom     = cast(scene.getObjectByName("Practice_Dom_Button"), THREE.Object3D);
+const practiceMin     = cast(scene.getObjectByName("Practice_Min_Button"), THREE.Object3D);
+const practiceHalfDim = cast(scene.getObjectByName("Practice_HalfDim_Button"), THREE.Object3D);
+const practiceDim     = cast(scene.getObjectByName("Practice_Dim_Button"), THREE.Object3D);
+
+const practiceIonian     = cast(scene.getObjectByName("Practice_Ionian_Button"), THREE.Object3D);
+const practiceDorian     = cast(scene.getObjectByName("Practice_Dorian_Button"), THREE.Object3D);
+const practicePhrygian   = cast(scene.getObjectByName("Practice_Phrygian_Button"), THREE.Object3D);
+const practiceLydian     = cast(scene.getObjectByName("Practice_Lydian_Button"), THREE.Object3D);
+const practiceMixolydian = cast(scene.getObjectByName("Practice_Mixolydian_Button"), THREE.Object3D);
+const practiceAeolian    = cast(scene.getObjectByName("Practice_Aeolian_Button"), THREE.Object3D);
+const practiceLocrian    = cast(scene.getObjectByName("Practice_Locrian_Button"), THREE.Object3D);
+
+const practiceMin2  = cast(scene.getObjectByName("Practice_m2_Button"), THREE.Object3D);
+const practiceMaj2  = cast(scene.getObjectByName("Practice_M2_Button"), THREE.Object3D);
+const practiceMin3  = cast(scene.getObjectByName("Practice_m3_Button"), THREE.Object3D);
+const practiceMaj3  = cast(scene.getObjectByName("Practice_M3_Button"), THREE.Object3D);
+const practicePerf4 = cast(scene.getObjectByName("Practice_P4_Button"), THREE.Object3D);
+const practiceTT    = cast(scene.getObjectByName("Practice_TT_Button"), THREE.Object3D);
+const practicePerf5 = cast(scene.getObjectByName("Practice_P5_Button"), THREE.Object3D);
+const practiceMin6  = cast(scene.getObjectByName("Practice_m6_Button"), THREE.Object3D);
+const practiceMaj6  = cast(scene.getObjectByName("Practice_M6_Button"), THREE.Object3D);
+const practiceMin7  = cast(scene.getObjectByName("Practice_m7_Button"), THREE.Object3D);
+const practiceMaj7  = cast(scene.getObjectByName("Practice_M7_Button"), THREE.Object3D);
+const practiceOct   = cast(scene.getObjectByName("Practice_O_Button"), THREE.Object3D);
+
+const playMin2  = cast(scene.getObjectByName("Play_m2_Button"), THREE.Object3D);
+const playMaj2  = cast(scene.getObjectByName("Play_M2_Button"), THREE.Object3D);
+const playMin3  = cast(scene.getObjectByName("Play_m3_Button"), THREE.Object3D);
+const playMaj3  = cast(scene.getObjectByName("Play_M3_Button"), THREE.Object3D);
+const playPerf4 = cast(scene.getObjectByName("Play_P4_Button"), THREE.Object3D);
+const playTT    = cast(scene.getObjectByName("Play_TT_Button"), THREE.Object3D);
+const playPerf5 = cast(scene.getObjectByName("Play_P5_Button"), THREE.Object3D);
+const playMin6  = cast(scene.getObjectByName("Play_m6_Button"), THREE.Object3D);
+const playMaj6  = cast(scene.getObjectByName("Play_M6_Button"), THREE.Object3D);
+const playMin7  = cast(scene.getObjectByName("Play_m7_Button"), THREE.Object3D);
+const playMaj7  = cast(scene.getObjectByName("Play_M7_Button"), THREE.Object3D);
+const playOct   = cast(scene.getObjectByName("Play_O_Button"), THREE.Object3D);
+
+const chordText         = cast(scene.getObjectByName("Chords_Play_Title"), THREE.Object3D);
+const chordGameStart    = cast(scene.getObjectByName("Chord_Game_Start"), THREE.Object3D);
+const scaleText         = cast(scene.getObjectByName("Scale_Play_Title"), THREE.Object3D);
+const scaleGameStart    = cast(scene.getObjectByName("Scale_Game_Start"), THREE.Object3D);
+const intervalText      = cast(scene.getObjectByName("Intervals_Play_Title"), THREE.Object3D);
+const intervalGameStart = cast(scene.getObjectByName("Interval_Game_Start"), THREE.Object3D);
+const welcomeText       = cast(scene.getObjectByName("Welcome_Text"), THREE.Object3D);
+
+const playMaj     = cast(scene.getObjectByName("Play_Maj_Button"), THREE.Object3D);
+const playDom     = cast(scene.getObjectByName("Play_Dom_Button"), THREE.Object3D);
+const playMin     = cast(scene.getObjectByName("Play_Min_Button"), THREE.Object3D);
+const playHalfDim = cast(scene.getObjectByName("Play_HalfDim_Button"), THREE.Object3D);
+const playDim     = cast(scene.getObjectByName("Play_Dim_Button"), THREE.Object3D);
+
+const playIonian     = cast(scene.getObjectByName("Play_Ionian_Button"), THREE.Object3D);
+const playDorian     = cast(scene.getObjectByName("Play_Dorian_Button"), THREE.Object3D);
+const playPhrygian   = cast(scene.getObjectByName("Play_Phrygian_Button"), THREE.Object3D);
+const playLydian     = cast(scene.getObjectByName("Play_Lydian_Button"), THREE.Object3D);
+const playMixolydian = cast(scene.getObjectByName("Play_Mixolydian_Button"), THREE.Object3D);
+const playAeolian    = cast(scene.getObjectByName("Play_Aeolian_Button"), THREE.Object3D);
+const playLocrian    = cast(scene.getObjectByName("Play_Locrian_Button"), THREE.Object3D);
+
+const major    = "https://persistence.mud.foundation/files/01a13a02-e5b8-7289-bb79-e55f483fc28a.mp3";
+const dominant = "https://persistence.mud.foundation/files/01a13a03-75b8-72fd-adb2-3cd36c7d389d.mp3";
+const minor    = "https://persistence.mud.foundation/files/01a13a03-56f2-776c-81ac-a9d080551021.mp3";
+const halfDim  = "https://persistence.mud.foundation/files/01a13a03-98ec-747e-94d6-92c01d9add90.mp3";
+const dim      = "https://persistence.mud.foundation/files/01a13a03-e5b9-77a5-b6f3-58caaf69c740.mp3";
+
+const ionian     = "https://persistence.mud.foundation/files/01a11a60-94e3-7719-8aa1-70759be73aa8.mp3";
+const dorian     = "https://persistence.mud.foundation/files/01a11a60-8299-7629-a2c6-69f168e81133.mp3";
+const phrygian   = "https://persistence.mud.foundation/files/01a11a61-0e6a-7352-9b3a-3b562652b433.mp3";
+const lydian     = "https://persistence.mud.foundation/files/01a11a60-e99a-7073-85fa-87441e442049.mp3";
+const mixolydian = "https://persistence.mud.foundation/files/01a11a60-ff03-74af-9b0d-756d7b6e3653.mp3";
+const aeolian    = "https://persistence.mud.foundation/files/01a11a60-7048-70ab-a186-ccf317007727.mp3";
+const locrian    = "https://persistence.mud.foundation/files/01a11a60-a958-77df-b95f-683028397b89.mp3";
+
+const min2  = "https://persistence.mud.foundation/files/01a13a0b-c9c5-752f-abc3-b337da6c45dd.mp3";
+const maj2  = "https://persistence.mud.foundation/files/01a13a0b-7594-772e-aa4c-a573fbc49bf8.mp3";
+const min3  = "https://persistence.mud.foundation/files/01a13a0b-de18-721a-b661-d9a4ec38e1d3.mp3";
+const maj3  = "https://persistence.mud.foundation/files/01a13a0b-8b9f-745f-820d-824648ef2b7b.mp3";
+const perf4 = "https://persistence.mud.foundation/files/01a13a0c-2047-7270-af3a-c4adef7d26e9.mp3";
+const tt    = "https://persistence.mud.foundation/files/01a13a0c-486c-71ab-9d12-b5bcc032bd17.mp3";
+const perf5 = "https://persistence.mud.foundation/files/01a13a0c-3846-74bc-bdf7-5ea0e4473fae.mp3";
+const min6  = "https://persistence.mud.foundation/files/01a13a0b-ee4f-720e-9271-b5c72409c9ad.mp3";
+const maj6  = "https://persistence.mud.foundation/files/01a13a0b-a0aa-73ad-b04c-95ecbedf7e13.mp3";
+const min7  = "https://persistence.mud.foundation/files/01a13a0b-ff42-720f-925b-8c95968fe86f.mp3";
+const maj7  = "https://persistence.mud.foundation/files/01a13a0b-b8a9-7000-90f7-13605ac4b533.mp3";
+const oct   = "https://persistence.mud.foundation/files/01a13a0c-0eb0-77dd-b081-772a14d68860.mp3";
+
+const chordSounds     = [major, dominant, minor, halfDim, dim];
+const chordButtons    = [playMaj, playDom, playMin, playHalfDim, playDim];
+const scaleSounds     = [ionian, dorian, phrygian, lydian, mixolydian, aeolian, locrian];
+const scaleButtons    = [playIonian, playDorian, playPhrygian, playLydian, playMixolydian, playAeolian, playLocrian];
+const intervalSounds  = [min2, maj2, min3, maj3, perf4, tt, perf5, min6, maj6, min7, maj7, oct];
+const intervalButtons = [playMin2, playMaj2, playMin3, playMaj3, playPerf4, playTT, playPerf5, playMin6, playMaj6, playMin7, playMaj7, playOct];
+
+const listener = new THREE.AudioListener();
+camera.add( listener );
+const userSound = new THREE.Audio( listener );
+const globalAudioLoader = new THREE.AudioLoader();
+let activated = false;
+
+function activateSound(soundLink) {
+
+    globalAudioLoader.load(
+        soundLink,
+        function (buffer) {
+            userSound.stop();
+            userSound.setBuffer(buffer);
+            userSound.setLoop(false);
+            userSound.setVolume(0.5);
+            userSound.play();
+            //userSound.stop(8);
+        }
+    );
+}
+
+
+let roundActive = false;
+let timeRemaining = 0;
+let correctChordIndex = -1;
+let game = -1;
+
+function playGame(soundArray, buttonArray) {
+    if (roundActive) return;
+    if(timeRemaining < 0) return;
+    if (soundArray.length !== buttonArray.length) return;
+    if (soundArray.length === 0) return;
+
+    // Choose the chord the player must identify.
+    correctChordIndex = Math.floor(Math.random() * soundArray.length);
+    roundActive = true;
+    timeRemaining = 10;
+
+    console.log("Listen to the chord!");
+
+    // Play the randomly selected chord.
+    // See the audio note below about resetting `activated`.
+    activateSound(soundArray[correctChordIndex]);
+
+    // Lose if the player doesn't answer within 10 seconds.
+}
+
+function finishRound(won, message) {
+    if (!roundActive) return;
+
+    let gameText;
+
+    switch(game) {
+        case 0:
+           gameText = chordText;
+           break;
+        case 1:
+           gameText = scaleText;
+           break;
+        case 2:
+           gameText = intervalText;
+           break;
+        default:
+           gameText = welcomeText;
+           break;
+    }
+
+    roundActive = false;
+    timeRemaining = -1;
+
+    if (won) {
+        gameText.text = message;
+    } else {
+        gameText.text = message;
+    }
+}
+
+function submitAnswer(buttonIndex) {
+    // Ignore clicks when there isn't an active round.
+    if (!roundActive) return;
+
+    if (buttonIndex === correctChordIndex) {
+        finishRound(true, "Correct!");
+    } else {
+        finishRound(false, "Incorrect!");
+    }
+}
+
+
+
+
+
+// ─── AudioInteractor ──────────────────────────────────────────────────────────
+const practiceMajInteractor     = new ray.RayInteractor(practiceMaj);
+const practiceDomInteractor     = new ray.RayInteractor(practiceDom);
+const practiceMinInteractor     = new ray.RayInteractor(practiceMin);
+const practiceHalfDimInteractor = new ray.RayInteractor(practiceHalfDim);
+const practiceDimInteractor     = new ray.RayInteractor(practiceDim);
+
+const practiceIonianInteractor     = new ray.RayInteractor(practiceIonian);
+const practiceDorianInteractor     = new ray.RayInteractor(practiceDorian);
+const practicePhrygianInteractor   = new ray.RayInteractor(practicePhrygian);
+const practiceLydianInteractor     = new ray.RayInteractor(practiceLydian);
+const practiceMixolydianInteractor = new ray.RayInteractor(practiceMixolydian);
+const practiceAeolianInteractor    = new ray.RayInteractor(practiceAeolian);
+const practiceLocrianInteractor    = new ray.RayInteractor(practiceLocrian);
+
+const practiceMin2Interactor  = new ray.RayInteractor(practiceMin2);
+const practiceMaj2Interactor  = new ray.RayInteractor(practiceMaj2);
+const practiceMin3Interactor  = new ray.RayInteractor(practiceMin3);
+const practiceMaj3Interactor  = new ray.RayInteractor(practiceMaj3);
+const practicePerf4Interactor = new ray.RayInteractor(practicePerf4);
+const practiceTTInteractor    = new ray.RayInteractor(practiceTT);
+const practicePerf5Interactor = new ray.RayInteractor(practicePerf5);
+const practiceMin6Interactor  = new ray.RayInteractor(practiceMin6);
+const practiceMaj6Interactor  = new ray.RayInteractor(practiceMaj6);
+const practiceMin7Interactor  = new ray.RayInteractor(practiceMin7);
+const practiceMaj7Interactor  = new ray.RayInteractor(practiceMaj7);
+const practiceOctInteractor   = new ray.RayInteractor(practiceOct);
+
+const chordGameStartInteractor    = new ray.RayInteractor(chordGameStart);
+const scaleGameStartInteractor    = new ray.RayInteractor(scaleGameStart);
+const intervalGameStartInteractor = new ray.RayInteractor(intervalGameStart);
+
+const playMajInteractor     = new ray.RayInteractor(playMaj);
+const playDomInteractor     = new ray.RayInteractor(playDom);
+const playMinInteractor     = new ray.RayInteractor(playMin);
+const playHalfDimInteractor = new ray.RayInteractor(playHalfDim);
+const playDimInteractor     = new ray.RayInteractor(playDim);
+
+const playIonianInteractor     = new ray.RayInteractor(playIonian);
+const playDorianInteractor     = new ray.RayInteractor(playDorian);
+const playPhrygianInteractor   = new ray.RayInteractor(playPhrygian);
+const playLydianInteractor     = new ray.RayInteractor(playLydian);
+const playMixolydianInteractor = new ray.RayInteractor(playMixolydian);
+const playAeolianInteractor    = new ray.RayInteractor(playAeolian);
+const playLocrianInteractor    = new ray.RayInteractor(playLocrian);
+
+const playMin2Interactor  = new ray.RayInteractor(playMin2);
+const playMaj2Interactor  = new ray.RayInteractor(playMaj2);
+const playMin3Interactor  = new ray.RayInteractor(playMin3);
+const playMaj3Interactor  = new ray.RayInteractor(playMaj3);
+const playPerf4Interactor = new ray.RayInteractor(playPerf4);
+const playTTInteractor    = new ray.RayInteractor(playTT);
+const playPerf5Interactor = new ray.RayInteractor(playPerf5);
+const playMin6Interactor  = new ray.RayInteractor(playMin6);
+const playMaj6Interactor  = new ray.RayInteractor(playMaj6);
+const playMin7Interactor  = new ray.RayInteractor(playMin7);
+const playMaj7Interactor  = new ray.RayInteractor(playMaj7);
+const playOctInteractor   = new ray.RayInteractor(playOct);
+
+/*
+practiceMajInteractor.onEnter = (_hit, pointer) => {
+    input.setCursor(pointer, 'pointer'); 
+};
+practiceMajInteractor.onExit  = (_hit, pointer) => {
+    input.setCursor(pointer, 'default');
+};
+*/
+
+practiceMajInteractor.onClick = (_hit) => { 
+    activateSound(major);
+};
+practiceDomInteractor.onClick = (_hit) => { 
+    activateSound(dominant);
+};
+practiceMinInteractor.onClick = (_hit) => { 
+    activateSound(minor);
+};
+practiceHalfDimInteractor.onClick = (_hit) => { 
+    activateSound(halfDim);
+};
+practiceDimInteractor.onClick = (_hit) => { 
+    activateSound(dim);
+};
+
+practiceIonianInteractor.onClick = (_hit) => { 
+    activateSound(ionian);
+};
+practiceDorianInteractor.onClick = (_hit) => { 
+    activateSound(dorian);
+};
+practicePhrygianInteractor.onClick = (_hit) => { 
+    activateSound(phrygian);
+};
+practiceLydianInteractor.onClick = (_hit) => { 
+    activateSound(lydian);
+};
+practiceMixolydianInteractor.onClick = (_hit) => { 
+    activateSound(mixolydian);
+};
+practiceAeolianInteractor.onClick = (_hit) => { 
+    activateSound(aeolian);
+};
+practiceLocrianInteractor.onClick = (_hit) => { 
+    activateSound(locrian);
+};
+practiceMin2Interactor.onClick = (_hit) => { 
+    activateSound(min2);
+};
+practiceMaj2Interactor.onClick = (_hit) => { 
+    activateSound(maj2);
+};
+practiceMin3Interactor.onClick = (_hit) => { 
+    activateSound(min3);
+};
+practiceMaj3Interactor.onClick = (_hit) => { 
+    activateSound(maj3);
+};
+practicePerf4Interactor.onClick = (_hit) => { 
+    activateSound(perf4);
+};
+practiceTTInteractor.onClick = (_hit) => { 
+    activateSound(tt);
+};
+practicePerf5Interactor.onClick = (_hit) => { 
+    activateSound(perf5);
+};
+practiceMin6Interactor.onClick = (_hit) => { 
+    activateSound(min6);
+};
+practiceMaj6Interactor.onClick = (_hit) => { 
+    activateSound(maj6);
+};
+practiceMin7Interactor.onClick = (_hit) => { 
+    activateSound(min7);
+};
+practiceMaj7Interactor.onClick = (_hit) => { 
+    activateSound(maj7);
+};
+practiceOctInteractor.onClick = (_hit) => { 
+    activateSound(oct);
+};
+
+chordGameStartInteractor.onClick = (_hit) => {
+    game = 0;
+    playGame(chordSounds, chordButtons);
+};
+
+scaleGameStartInteractor.onClick = (_hit) => {
+    game = 1;
+    playGame(scaleSounds, scaleButtons);
+};
+
+intervalGameStartInteractor.onClick = (_hit) => {
+    game = 2;
+    playGame(intervalSounds, intervalButtons);
+};
+
+playMajInteractor.onClick = (_hit) => {
+    submitAnswer(0);
+};
+
+playDomInteractor.onClick = (_hit) => {
+    submitAnswer(1);
+};
+
+playMinInteractor.onClick = (_hit) => {
+    submitAnswer(2);
+};
+
+playHalfDimInteractor.onClick = (_hit) => {
+    submitAnswer(3);
+};
+
+playDimInteractor.onClick = (_hit) => {
+    submitAnswer(4);
+};
+
+
+playIonianInteractor.onClick = (_hit) => {
+    submitAnswer(0);
+};
+
+playDorianInteractor.onClick = (_hit) => {
+    submitAnswer(1);
+};
+
+playPhrygianInteractor.onClick = (_hit) => {
+    submitAnswer(2);
+};
+
+
+playLydianInteractor.onClick = (_hit) => {
+    submitAnswer(3);
+};
+
+
+playMixolydianInteractor.onClick = (_hit) => {
+    submitAnswer(4);
+};
+
+
+playAeolianInteractor.onClick = (_hit) => {
+    submitAnswer(5);
+};
+
+playLocrianInteractor.onClick = (_hit) => {
+    submitAnswer(6);
+};
+
+
+playMin2Interactor.onClick = (_hit) => {
+    submitAnswer(0);
+};
+
+playMaj2Interactor.onClick = (_hit) => {
+    submitAnswer(1);
+};
+
+playMin3Interactor.onClick = (_hit) => {
+    submitAnswer(2);
+};
+
+playMaj3Interactor.onClick = (_hit) => {
+    submitAnswer(3);
+};
+
+playPerf4Interactor.onClick = (_hit) => {
+    submitAnswer(4);
+};
+
+playTTInteractor.onClick = (_hit) => {
+    submitAnswer(5);
+};
+
+playPerf5Interactor.onClick = (_hit) => {
+    submitAnswer(6);
+};
+
+playMin6Interactor.onClick = (_hit) => {
+    submitAnswer(7);
+};
+
+playMaj6Interactor.onClick = (_hit) => {
+    submitAnswer(8);
+};
+
+playMin7Interactor.onClick = (_hit) => {
+    submitAnswer(9);
+};
+
+playMaj7Interactor.onClick = (_hit) => {
+    submitAnswer(10);
+};
+
+playOctInteractor.onClick = (_hit) => {
+    submitAnswer(11);
+};
+
+// ─── Lifecycle ────────────────────────────────────────────────────────────────
+function startup() {}
+
+function update(delta, time) {
+    const pointers = input.getPointers();
+
+    practiceMajInteractor.update(pointers);
+    practiceDomInteractor.update(pointers);
+    practiceMinInteractor.update(pointers);
+    practiceHalfDimInteractor.update(pointers);
+    practiceDimInteractor.update(pointers);
+
+    practiceIonianInteractor.update(pointers);
+    practiceDorianInteractor.update(pointers);
+    practicePhrygianInteractor.update(pointers);
+    practiceLydianInteractor.update(pointers);
+    practiceMixolydianInteractor.update(pointers);
+    practiceAeolianInteractor.update(pointers);
+    practiceLocrianInteractor.update(pointers);
+
+    practiceMin2Interactor.update(pointers);
+    practiceMaj2Interactor.update(pointers);
+    practiceMin3Interactor.update(pointers);
+    practiceMaj3Interactor.update(pointers);
+    practicePerf4Interactor.update(pointers);
+    practiceTTInteractor.update(pointers);
+    practicePerf5Interactor.update(pointers);
+    practiceMin6Interactor.update(pointers);
+    practiceMaj6Interactor.update(pointers);
+    practiceMin7Interactor.update(pointers);
+    practiceMaj7Interactor.update(pointers);
+    practiceOctInteractor.update(pointers);
+
+    chordGameStartInteractor.update(pointers);
+    scaleGameStartInteractor.update(pointers);
+    intervalGameStartInteractor.update(pointers);
+
+    playMajInteractor.update(pointers);
+    playDomInteractor.update(pointers);
+    playMinInteractor.update(pointers);
+    playHalfDimInteractor.update(pointers);
+    playDimInteractor.update(pointers);
+
+    playIonianInteractor.update(pointers);
+    playDorianInteractor.update(pointers);
+    playPhrygianInteractor.update(pointers);
+    playLydianInteractor.update(pointers);
+    playMixolydianInteractor.update(pointers);
+    playAeolianInteractor.update(pointers);
+    playLocrianInteractor.update(pointers);
+
+    playMin2Interactor.update(pointers);
+    playMaj2Interactor.update(pointers);
+    playMin3Interactor.update(pointers);
+    playMaj3Interactor.update(pointers);
+    playPerf4Interactor.update(pointers);
+    playTTInteractor.update(pointers);
+    playPerf5Interactor.update(pointers);
+    playMin6Interactor.update(pointers);
+    playMaj6Interactor.update(pointers);
+    playMin7Interactor.update(pointers);
+    playMaj7Interactor.update(pointers);
+    playOctInteractor.update(pointers);
+
+    if (roundActive) {
+        timeRemaining -= delta;
+
+        if (timeRemaining <= 0 && timeRemaining > -1) {
+            finishRound(false, "Out Of Time!");
+        }
+    }
+    if(timeRemaining <= -1) {
+        timeRemaining -= delta;
+        if(timeRemaining <= -5) {
+            timeRemaining = 0;
+            chordText.text = "Play";
+        }
+    }
+}
+
+function dispose() {
+    practiceMajInteractor.reset();
+    practiceDomInteractor.reset();
+    practiceMinInteractor.reset();
+    practiceHalfDimInteractor.reset();
+    practiceDimInteractor.reset();
+
+    practiceIonianInteractor.reset();
+    practiceDorianInteractor.reset();
+    practicePhrygianInteractor.reset();
+    practiceLydianInteractor.reset();
+    practiceMixolydianInteractor.reset();
+    practiceAeolianInteractor.reset();
+    practiceLocrianInteractor.reset();
+
+    practiceMin2Interactor.reset();
+    practiceMaj2Interactor.reset();
+    practiceMin3Interactor.reset();
+    practiceMaj3Interactor.reset();
+    practicePerf4Interactor.reset();
+    practiceTTInteractor.reset();
+    practicePerf5Interactor.reset();
+    practiceMin6Interactor.reset();
+    practiceMaj6Interactor.reset();
+    practiceMin7Interactor.reset();
+    practiceMaj7Interactor.reset();
+    practiceOctInteractor.reset();
+
+    chordGameStartInteractor.reset();
+    scaleGameStartInteractor.reset();
+    intervalGameStartInteractor.reset();
+
+    playMajInteractor.reset();
+    playDomInteractor.reset();
+    playMinInteractor.reset();
+    playHalfDimInteractor.reset();
+    playDimInteractor.reset();
+
+    playIonianInteractor.reset();
+    playDorianInteractor.reset();
+    playPhrygianInteractor.reset();
+    playLydianInteractor.reset();
+    playMixolydianInteractor.reset();
+    playAeolianInteractor.reset();
+    playLocrianInteractor.reset();
+
+    playMin2Interactor.reset();
+    playMaj2Interactor.reset();
+    playMin3Interactor.reset();
+    playMaj3Interactor.reset();
+    playPerf4Interactor.reset();
+    playTTInteractor.reset();
+    playPerf5Interactor.reset();
+    playMin6Interactor.reset();
+    playMaj6Interactor.reset();
+    playMin7Interactor.reset();
+    playMaj7Interactor.reset();
+    playOctInteractor.reset();
+}
